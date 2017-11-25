@@ -1,0 +1,3 @@
+services:
+  hideme.proxy:
+    class: Antonisin\HideMeBundle\ProxyService

@@ -2,7 +2,7 @@
 This repository contain an bundle to work with hide me service.
 
 ## Instalation ##
-` composer require antonisin/hideme-bundle`
+` composer require antonisin/hidemebundle`
 ## Configuration ##
 ```
 hide_me:

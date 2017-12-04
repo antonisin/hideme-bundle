@@ -49,11 +49,9 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
 
-                        ->arrayNode('maxtime')
-                            ->integerPrototype()
-                                ->min(50)
-                                ->max(10000)
-                            ->end()
+                        ->integerNode('maxtime')
+                            ->min(50)
+                            ->max(10000)
                         ->end()
 
                         ->arrayNode('ports')

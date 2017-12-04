@@ -2,6 +2,7 @@
 
 namespace Antonisin\HideMeBundle\DependencyInjection;
 
+use Antonisin\HideMeBundle\Service\ProxyServiceInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -18,7 +19,73 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('hide_me');
+        $rootNode    = $treeBuilder->root('hideme');
+
+        $rootNode
+            ->children()
+                ->scalarNode('api_url')
+                    ->isRequired()
+                    ->end()
+
+                ->scalarNode('api_key')
+                    ->isRequired()
+                    ->end()
+
+                ->arrayNode('filters')
+                    ->children()
+                        ->enumNode('out')
+                            ->values([
+                                ProxyServiceInterface::FORMAT_PHP,
+                                ProxyServiceInterface::FORMAT_PLAIN,
+                                ProxyServiceInterface::FORMAT_XML,
+                                ProxyServiceInterface::FORMAT_JSON,
+                                ProxyServiceInterface::FORMAT_CSV,
+                            ])
+                            ->defaultValue(ProxyServiceInterface::FORMAT_JSON)
+                        ->end()
+
+                        ->arrayNode("country")
+                            ->scalarPrototype()
+                            ->end()
+                        ->end()
+
+                        ->arrayNode('maxtime')
+                            ->integerPrototype()
+                                ->min(50)
+                                ->max(10000)
+                            ->end()
+                        ->end()
+
+                        ->arrayNode('ports')
+                            ->integerPrototype()
+                                ->min(1)
+                                ->max(65555)
+                            ->end()
+                        ->end()
+
+                        ->arrayNode('type')
+                            ->enumPrototype()
+                                ->values([
+                                    ProxyServiceInterface::TYPE_HTTP,
+                                    ProxyServiceInterface::TYPE_HTTPS,
+                                    ProxyServiceInterface::TYPE_SOCKS4,
+                                    ProxyServiceInterface::TYPE_SOCKS5,
+                                ])
+                            ->end()
+                        ->end()
+
+                        ->arrayNode('anon')
+                            ->integerPrototype()
+                                ->min(1)
+                                ->max(4)
+                            ->end()
+                        ->end()
+
+                        ->integerNode('uptime')
+                            ->min(1)
+                            ->max(100)
+                        ->end()
+        ;
 
         return $treeBuilder;
     }

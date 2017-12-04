@@ -1,3 +1,4 @@
 services:
   hideme.proxy:
-    class: Antonisin\HideMeBundle\ProxyService
+    class: Antonisin\HideMeBundle\Service\ProxyService
+    arguments: ['%hideme.api_url%', '%hideme.api_key%', '%hideme.filters%']
